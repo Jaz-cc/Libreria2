@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial</title>
+    <link rel="stylesheet" href="css/estilo.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="catalogo-bg pt-5">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Librería</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="catalogo.html">Libros</a></li>
+        <li class="nav-item"><a class="nav-link" href="buscar.html">Buscar</a></li>
+        <li class="nav-item"><a class="nav-link" href="carrito.html">Carrito</a></li>
+        <li class="nav-item"><a class="nav-link" href="sitiomapa.html">Mapa del sitio</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="login.html">
+            <img src="imagenes/logout1.png" height="20">
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<nav class="breadcrumbs">
+  <a href="index.html">Inicio</a>
+  <span>›</span>
+  <a href="catalogo.html">Libros</a>
+  <span>›</span>
+  <a href="carrito.html">Carrito</a>
+  <span>›</span>
+  <a href="pago.html">Pago</a>
+  <span>›</span>
+  <span>Historial</span>
+</nav>
+    <h2 class="mb-4"> Historial de Compras</h2>
+    
+    <div id="listaHistorial"></div>
+    <script src="js/historial.js"></script>
+</body>
+</html>

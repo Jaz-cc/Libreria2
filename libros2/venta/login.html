@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="css/estilo.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body class="bg-light">
+
+    <!-- <h2>Iniciar Sesión</h2>
+
+    <form action="login.php" method="post">
+        <label for="usuario">Usuario:</label><br>
+        <input type="text" id="usuario" name="usuario" required><br><br>
+
+        <label for="password">Contraseña:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <button type="submit">Ingresar</button>
+    </form> -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Librería</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 85vh;">
+  <div class="card shadow-sm border-0 p-4" style="max-width: 420px; width: 100%; border-radius: 12px;">
+
+      <div class="text-center mb-3">
+          <h3 class="fw-bold">Iniciar Sesión</h3>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Usuario</label>
+            <input type="text" id="usuario" class="form-control" placeholder="Usuario">
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" id="password" class="form-control" placeholder="Contraseña">
+        </div>
+        
+        <button class="btn btn-warning w-100" onclick="login()">Entrar</button>
+        
+        <p id="mensaje" class="text-center mt-3 text-danger small"></p>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-contenido">
+        
+        <div class="footer-seccion">
+            <h3>Librería Online</h3>
+            <p>Tu tienda de libros favorita. Encuentra clásicos, novelas, ciencia ficción y más.</p>
+        </div>
+        
+        <div class="footer-seccion">
+            <h3>Atención al Cliente</h3>
+            <p>📧 soporte@libreria.com</p>
+            <p>📞 +52 55 1234 5678</p>
+            <p>Lun - Vie / 9:00 - 18:00</p>
+        </div>
+        
+    <div class="footer-seccion">
+      <h3>Síguenos</h3>
+      <p>Facebook</p>
+      <p>Instagram</p>
+      <p>Twitter</p>
+    </div>
+
+  </div>
+
+  <div class="footer-copy">
+    © 2026 Librería Online — Todos los derechos reservados
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>
