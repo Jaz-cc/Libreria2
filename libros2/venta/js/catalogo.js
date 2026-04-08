@@ -1,5 +1,5 @@
-const API_LIBROS = "";
-const API_CARRITO = "";
+const API_LIBROS = "https://localhost:44367/api/libro";
+const API_CARRITO = "https://localhost:44367/api/carrito";
 
 // obtener usuario
 function obtenerUsuario() {
@@ -32,31 +32,31 @@ async function cargarLibros() {
       col.innerHTML = `
         <div class="card libro-card h-100">
 
-          ${libro.stock < 5 ? '<span class="badge bg-danger">POCAS PIEZAS</span>' : ''}
+          ${libro.Stock < 5 ? '<span class="badge bg-danger">POCAS PIEZAS</span>' : ''}
 
-          <img src="${libro.imagen}" class="card-img-top">
+          <img src="imagenes/${libro.Imagen}" class="card-img-top">
 
           <div class="card-body d-flex flex-column">
-            <h6>${libro.titulo}</h6>
-            <div class="precio">$${libro.precio}</div>
+            <h6>${libro.Titulo}</h6>
+            <div class="precio">$${libro.Precio}</div>
 
-            <p class="${libro.stock > 0 ? 'text-success' : 'text-danger'}">
-              ${libro.stock > 0 ? "Stock: " + libro.stock : "AGOTADO"}
+            <p class="${libro.Stock > 0 ? 'text-success' : 'text-danger'}">
+              ${libro.Stock > 0 ? "Stock: " + libro.Stock : "AGOTADO"}
             </p>
 
             <div class="mt-auto">
 
               <!-- comprar -->
               <button class="btn btn-success btn-sm w-100 mb-1"
-                onclick="agregarAlCarrito(${libro.id})"
-                ${libro.stock === 0 ? "disabled" : ""}>
+                onclick="agregarAlCarrito(${libro.Id}, ${libro.Precio})"
+                ${libro.Stock === 0 ? "disabled" : ""}>
                 Comprar
               </button>
 
               <!-- solo admin -->
               ${user?.rol === "admin" ? `
                 <button class="btn btn-danger btn-sm w-100"
-                  onclick="eliminarLibro(${libro.id})">
+                  onclick="eliminarLibro(${libro.Id})">
                   Eliminar
                 </button>
               ` : ""}
@@ -75,7 +75,9 @@ async function cargarLibros() {
 }
 
 // gregar al carrito
-async function agregarAlCarrito(id) {
+async function agregarAlCarrito(id, precio) {
+  const usuario = obtenerUsuario();
+
   try {
     await fetch(API_CARRITO, {
       method: "POST",
@@ -83,8 +85,10 @@ async function agregarAlCarrito(id) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        libroId: id,
-        cantidad: 1
+        UserId: usuario.id,
+        LibroId: id,
+        Cantidad: 1,
+        Precio: precio
       })
     });
 

@@ -1,4 +1,4 @@
-const API = "";
+const API = "https://localhost:44367/api/";
 
 async function login() {
   const usuario = document.getElementById("usuario").value;

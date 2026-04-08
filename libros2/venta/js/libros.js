@@ -1,4 +1,4 @@
-const API = "";
+const API = "https://localhost:44367/api/libro";
 
 // Obtener usuario logueado
 function obtenerUsuario() {
@@ -22,29 +22,29 @@ async function cargarLibros() {
 
       col.innerHTML = `
         <div class="card libro-card">
-          ${libro.stock < 5 ? '<span class="badge bg-danger">POCAS PIEZAS</span>' : ''}
+          ${libro.Stock < 5 ? '<span class="badge bg-danger">POCAS PIEZAS</span>' : ''}
 
-          <img src="${libro.imagen}" class="card-img-top">
+          <img src="imagenes/${libro.Imagen}" class="card-img-top">
 
           <div class="card-body">
-            <h6>${libro.titulo}</h6>
+            <h6>${libro.Titulo}</h6>
             <div class="rating">⭐⭐⭐⭐⭐</div>
-            <div class="precio">$${libro.precio}</div>
+            <div class="precio">$${libro.Precio}</div>
 
-            <p class="${libro.stock > 0 ? 'text-success' : 'text-danger'}">
-              ${libro.stock > 0 ? "Piezas Disponibles: " + libro.stock : "AGOTADO"}
+            <p class="${libro.Stock > 0 ? 'text-success' : 'text-danger'}">
+              ${libro.Stock > 0 ? "Piezas Disponibles: " + libro.Stock : "AGOTADO"}
             </p>
 
             <!-- botón comprar -->
             <button class="btn btn-success btn-sm mt-2"
-              onclick="agregarAlCarrito(${libro.id})">
+              onclick="agregarAlCarrito(${libro.Id}, ${libro.Precio})">
               Comprar
             </button>
 
             <!-- solo admin -->
             ${user?.rol === "admin" ? `
               <button class="btn btn-danger btn-sm mt-2"
-                onclick="eliminarLibro(${libro.id})">
+                onclick="eliminarLibro(${libro.Id})">
                 Eliminar
               </button>
             ` : ""}
@@ -61,16 +61,20 @@ async function cargarLibros() {
 }
 
 // Agregar al carrito (backend)
-async function agregarAlCarrito(id) {
+async function agregarAlCarrito(id, precio) {
+  const usuario = obtenerUsuario();
+
   try {
-    await fetch(`https://localhost:5001/api/carrito`, {
+    await fetch(`https://localhost:44367/api/carrito`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        libroId: id,
-        cantidad: 1
+        UserId: usuario.id,
+        LibroId: id,
+        Cantidad: 1,
+        Precio: precio
       })
     });
 
