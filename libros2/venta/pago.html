@@ -44,34 +44,43 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="card shadow-sm p-4">
+                    <!-- resumen del pedido -->
                     <h2>Resumen de tu pedido</h2>
                     <div id="resumenPedido" class="mb-3"></div>
                     <div id="totalPedido" class="mb-4"></div>
+                    <!-- formulario de pago -->
                     <h4 class="mb-3">Datos de pago</h4>
+                    <!-- nombre -->
                     <div class="mb-3">
                         <input type="text" id="nombreCliente" class="form-control" placeholder="Nombre completo">
                         <small id="errorNombre" class="text-danger"></small>
                     </div>
+                    <!-- direccion -->
                     <div class="mb-3">
                         <input type="text" id="direccionCliente" class="form-control" placeholder="Dirección completa">
                         <small id="errorDireccion" class="text-danger"></small>
                     </div>
+                    <!-- tarjeta -->
                     <div class="mb-3">
                         <input type="text" id="tarjetaCliente" class="form-control" placeholder="Número de tarjeta">
                         <small id="errorTarjeta" class="text-danger"></small>
                     </div>
+                    <!-- CVV -->
                     <div class="mb-3">
                         <input type="text" id="cvvCliente" class="form-control" placeholder="CVV">
                         <small id="errorCvv" class="text-danger"></small>
                     </div>
+                    <!-- Botón -->
                     <button onclick="realizarCompra()" class="btn btn-warning w-100 fw-bold">Confirmar compra</button>
                 </div>
             </div>
         </div>
     </main>
+    <!-- pantalla de exito -->
     <div id="pantallaExito" class="pantalla-exito">
       <div class="exito-card">
         <h2>🎉 ¡Compra realizada con éxito!</h2>
+        <!-- numero de orden -->
         <p id="ordenGenerada"></p> <br>
         <button onclick="cerrarExito()" class="btn btn-primary">
           Volver a la tienda

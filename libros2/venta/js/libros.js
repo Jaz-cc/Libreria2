@@ -1,3 +1,4 @@
+// configuracio Api
 const API = "https://localhost:44367/api/libro";
 
 // Obtener usuario logueado
@@ -5,7 +6,7 @@ function obtenerUsuario() {
   return JSON.parse(localStorage.getItem("usuario"));
 }
 
-// Cargar libros desde backend
+// Consulta los libros desde el backend y los renderiza en el dom
 async function cargarLibros() {
   try {
     const res = await fetch(API);

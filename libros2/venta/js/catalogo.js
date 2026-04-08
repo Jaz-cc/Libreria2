@@ -1,3 +1,4 @@
+// Configuracion EP API
 const API_LIBROS = "https://localhost:44367/api/libro";
 const API_CARRITO = "https://localhost:44367/api/carrito";
 
@@ -6,7 +7,8 @@ function obtenerUsuario() {
   return JSON.parse(localStorage.getItem("usuario"));
 }
 
-// proteger acceso
+// proteger acceso, verifica si hay una seccion activa
+// si no hay usuario, redirige al login
 function verificarSesion() {
   const user = obtenerUsuario();
   if (!user) {
@@ -28,7 +30,7 @@ async function cargarLibros() {
     libros.forEach(libro => {
       const col = document.createElement("div");
       col.className = "col-md-3 col-sm-6";
-
+      // construcción del html de cada libro
       col.innerHTML = `
         <div class="card libro-card h-100">
 
@@ -74,7 +76,7 @@ async function cargarLibros() {
   }
 }
 
-// gregar al carrito
+// grega libros al carrito del usuario actual
 async function agregarAlCarrito(id, precio) {
   const usuario = obtenerUsuario();
 
@@ -102,19 +104,19 @@ async function agregarAlCarrito(id, precio) {
 // eliminar libro (admin)
 async function eliminarLibro(id) {
   const user = obtenerUsuario();
-
+  //validación de permisos
   if (!user || user.rol !== "admin") {
     alert("No tienes permisos");
     return;
   }
-
+  //confrimacion del usuario
   if (!confirm("¿Eliminar este libro?")) return;
 
   try {
     await fetch(`${API_LIBROS}/${id}`, {
       method: "DELETE"
     });
-
+    //recargar lista de libros
     cargarLibros();
 
   } catch (error) {
