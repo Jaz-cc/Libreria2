@@ -64,12 +64,24 @@ async function cargarLibros() {
   }
 }
 
+function generarIdCompra() {
+  const usuario = obtenerUsuario();
+  const hoy = new Date();
+  const yyyy = hoy.getFullYear().toString();
+  const mm = (hoy.getMonth() + 1).toString().padStart(2, "0");
+  const dd = hoy.getDate().toString().padStart(2, "0");
+
+  return parseInt(yyyy + mm + dd + usuario.id); // ejemplo: 20260408
+}
 // Agregar al carrito (backend)
 async function agregarAlCarrito(id, precio) {
   const usuario = obtenerUsuario();
+  const idCompra = generarIdCompra();
 
   const cantidadInput = document.getElementById(`cantidad-${id}`);
   const cantidad = Number(cantidadInput.value);
+
+  
 
   try {
     await fetch(`https://localhost:44367/api/carrito`, {
@@ -79,6 +91,7 @@ async function agregarAlCarrito(id, precio) {
       },
       body: JSON.stringify({
         UserId: usuario.id,
+        IdCompra: idCompra,
         LibroId: id,
         Cantidad: cantidad,
         Precio: precio
