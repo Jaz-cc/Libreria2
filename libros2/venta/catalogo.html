@@ -17,14 +17,16 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
       <span class="navbar-toggler-icon"></span>
     </button>
-
+    <!-- Menú -->
     <div class="collapse navbar-collapse" id="menu">
       <ul class="navbar-nav ms-auto">
+        <!-- Navegación principal -->
         <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
         <li class="nav-item"><a class="nav-link active" href="catalogo.html">Libros</a></li>
         <li class="nav-item"><a class="nav-link" href="buscar.html">Buscar</a></li>
         <li class="nav-item"><a class="nav-link" href="carrito.html">Carrito</a></li>
         <li class="nav-item"><a class="nav-link" href="sitiomapa.html">Mapa del sitio</a></li>
+        <!-- Login -->
         <li class="nav-item">
           <a class="nav-link" href="login.html">
             <img src="imagenes/logout1.png" height="20">
@@ -34,7 +36,7 @@
     </div>
   </div>
 </nav>
-
+<!-- Breadcrumbs -->
 <nav class="breadcrumbs">
   <a href="index.html">Inicio</a>
   <span>›</span>
@@ -46,7 +48,9 @@
   <br>
   <h3 class="fw-bold mb-3">Catálogo de Libros</h3>
   <br>
+  <!-- Contenedor dinamico de libros  -->
   <div class="row g-3" id="contenedor-libros">
+    <!-- insertan libros desde el js -->
   </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
@@ -78,7 +82,7 @@
     © 2026 Librería — Todos los derechos reservados
   </div>
 </footer>
-
+<!-- lógica de libros -->
 <script src="js/libros.js"></script>
 </body>
 </html>
