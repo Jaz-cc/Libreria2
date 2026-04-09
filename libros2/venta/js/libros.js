@@ -35,6 +35,9 @@ async function cargarLibros() {
               ${libro.Stock > 0 ? "Piezas Disponibles: " + libro.Stock : "AGOTADO"}
             </p>
 
+            <p><label>Cantidad</label>
+            <input style="width:70px;" type="number" id="cantidad-${libro.Id}" value=1 min="1" max="5" required></p>
+            
             <!-- botón comprar -->
             <button class="btn btn-success btn-sm mt-2"
               onclick="agregarAlCarrito(${libro.Id}, ${libro.Precio})">
@@ -64,6 +67,9 @@ async function cargarLibros() {
 async function agregarAlCarrito(id, precio) {
   const usuario = obtenerUsuario();
 
+  const cantidadInput = document.getElementById(`cantidad-${id}`);
+  const cantidad = Number(cantidadInput.value);
+
   try {
     await fetch(`https://localhost:44367/api/carrito`, {
       method: "POST",
@@ -73,7 +79,7 @@ async function agregarAlCarrito(id, precio) {
       body: JSON.stringify({
         UserId: usuario.id,
         LibroId: id,
-        Cantidad: 1,
+        Cantidad: cantidad,
         Precio: precio
       })
     });
@@ -108,7 +114,7 @@ async function eliminarLibro(id) {
   }
 }
 
-// Proteger acceso (opcional)
+// Proteger acceso
 function verificarSesion() {
   const user = obtenerUsuario();
 
