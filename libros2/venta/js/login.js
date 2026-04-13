@@ -25,6 +25,9 @@ async function login() {
     // respuesta del servidor, datos del usuario
     const data = await res.json();
 
+    //guardar token
+    sessionStorage.setItem("token", data.token);
+
     // guardar sesión
     localStorage.setItem("usuario", JSON.stringify(data));
 

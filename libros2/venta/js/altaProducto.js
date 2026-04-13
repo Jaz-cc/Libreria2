@@ -4,6 +4,15 @@ function obtenerUsuario() {
   return JSON.parse(localStorage.getItem("usuario"));
 }
 
+function verificarSesion() {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Debes iniciar sesión");
+    window.location.href = "/login.html";
+  }
+}
+
 const adminBtn = document.getElementById("adminBtn");
 
 const usuario = obtenerUsuario();
@@ -18,18 +27,11 @@ function AddLibro() {
     return;
   }
 
-    const fileInput = document.getElementById("imagen");
-    const file = fileInput.files[0];
-    const imagen = file.name;
+  const fileInput = document.getElementById("imagen");
+  const file = fileInput.files[0];
+  const imagen = file.name;
 
   const form = document.getElementById("formAltaProducto");
-  const preview = document.getElementById("previewImagen");
-
-  // Vista previa de imagen (SOLO UNA VEZ)
-    document.getElementById("imagen").addEventListener("input", (e) => {
-        console.log("cambiando imagen:", e.target.value);
-        preview.src = "imagenes/" + e.target.value || "../imagenes/default.png";
-    });
 
   // Evento submit
   form.addEventListener("submit", async function (e) {
@@ -45,16 +47,19 @@ function AddLibro() {
       const response = await fetch(APILI, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${sessionStorage.getItem("token")}`
         },
         body: JSON.stringify({
           Titulo: titulo,
           Autor: autor,
           Precio: precio,
           Stock: stock,
-          Imagen: imagen
+          Imagen: imagen //La imagen solo se mostrara si la tiene en la carpeta de imagnes del lado del cliente
+          //puesto que no se encunetran subidas al servidor
         })
       });
+
 
       if (!response.ok) {
         throw new Error("Error al guardar");
@@ -81,3 +86,7 @@ function cerrarModal() {
     document.getElementById("modalMensaje").style.display = "none";
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  verificarSesion();
+  AddLibro();
+});

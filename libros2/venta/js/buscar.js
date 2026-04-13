@@ -1,5 +1,19 @@
 const APILiB = "https://localhost:44367/api/libro";
 
+// OBTENER USUARIO
+function obtenerUsuario() {
+  return JSON.parse(localStorage.getItem("usuario"));
+}
+
+function verificarSesion() {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Debes iniciar sesión");
+    window.location.href = "/login.html";
+  }
+}
+
 const adminBtn = document.getElementById("adminBtn");
 
 const usuario = obtenerUsuario();
@@ -40,3 +54,7 @@ async function buscarLibro() {
     resultado.appendChild(div);
   });
 }
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   verificarSesion();
+// });

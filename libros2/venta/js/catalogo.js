@@ -17,9 +17,11 @@ if (usuario.rol === "admin") {
 // proteger acceso, verifica si hay una seccion activa
 // si no hay usuario, redirige al login
 function verificarSesion() {
-  const user = obtenerUsuario();
-  if (!user) {
-    window.location.href = "login.html";
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Debes iniciar sesión");
+    window.location.href = "/login.html";
   }
 }
 

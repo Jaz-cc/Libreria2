@@ -6,6 +6,15 @@ function obtenerUsuario() {
   return JSON.parse(localStorage.getItem("usuario"));
 }
 
+function verificarSesion() {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Debes iniciar sesión");
+    window.location.href = "/login.html";
+  }
+}
+
 const adminBtn = document.getElementById("adminBtn");
 
 const usuario = obtenerUsuario();
@@ -131,15 +140,6 @@ async function eliminarLibro(id) {
 
   } catch (error) {
     console.error("Error al eliminar:", error);
-  }
-}
-
-// Proteger acceso
-function verificarSesion() {
-  const user = obtenerUsuario();
-
-  if (!user) {
-    window.location.href = "login.html";
   }
 }
 

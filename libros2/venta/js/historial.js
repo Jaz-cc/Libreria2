@@ -3,6 +3,23 @@ const API = "https://localhost:44367/api/historialcar";
 function obtenerUsuario() {
   return JSON.parse(localStorage.getItem("usuario"));
 }
+
+function verificarSesion() {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Debes iniciar sesión");
+    window.location.href = "/login.html";
+  }
+}
+
+const adminBtn = document.getElementById("adminBtn");
+
+const usuario = obtenerUsuario();
+if (usuario.rol === "admin") {
+  adminBtn.innerHTML = `<li class="nav-item"><a class="nav-link" href="altaLibro.html">Alta Libro</a></li>`;
+}
+
 // Cargar historial
 async function cargarHistorial() {
   const usuario = obtenerUsuario();
@@ -43,4 +60,7 @@ async function cargarHistorial() {
 }
 
 // Iniciar
-document.addEventListener("DOMContentLoaded", cargarHistorial);
+document.addEventListener("DOMContentLoaded", () => {
+  verificarSesion()
+  cargarHistorial()
+});

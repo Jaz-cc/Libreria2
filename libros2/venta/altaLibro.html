@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alta de Producto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <!-- BARRA DE NAVEGACIÓN -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">Librería</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Menu de navegación  -->
+        <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="catalogo.html">Libros</a></li>
+            <li class="nav-item"><a class="nav-link" href="buscar.html">Buscar</a></li>
+            <li class="nav-item"><a class="nav-link" href="carrito.html">Carrito</a></li>
+            <span id="adminBtn"></span>
+            <li class="nav-item"><a class="nav-link" href="sitiomapa.html">Mapa del sitio</a></li>
+            <!-- login -->
+            <li class="nav-item">
+            <a class="nav-link" href="login.html">
+                <img src="imagenes/logout1.png" height="20">
+            </a>
+            </li>
+        </ul>
+        </div>
+    </div>
+    </nav>
+
+    <!-- BREADCRUMBS -->
+    <nav class="breadcrumbs">
+    <a href="../index.html">Inicio</a>
+    <span>›</span>
+    <span>Alta de Libros</span>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="container mt-4">
+        <div class="detalle-container">
+            <div class="detalle-card">
+                
+                <!-- FORMULARIO -->
+                <div class="detalle-info">
+                    <h2 class="mb-4">📙 Registrar Nuevo Libro</h2>
+                    <hr>
+
+                    <form id="formAltaProducto">
+
+                        <!-- TITULO -->
+                        <label>Título del libro</label>
+                        <input type="text" id="titulo" required>
+
+                        <!-- AUTOR -->
+                        <label>Autor</label>
+                        <input type="text" id="autor" required>
+
+                        <!-- PRECIO -->
+                        <label>Precio</label>
+                        <input type="number" id="precio" min="1" required>
+
+                        <!-- STOCK -->
+                        <label>Stock disponible</label>
+                        <input type="number" id="stock" min="0" required>
+
+                        <!-- IMAGEN -->
+                        <label>Imagen del libro</label>
+                        <input type="file" id="imagen" placeholder="../imagenes/libro.jpg">
+
+                        <br>
+
+                        <!-- BOTÓN -->
+                        <button type="submit" class="btn-comprar" onclick="AddLibro()">
+                        Guardar Producto
+                        </button>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- MODAL -->
+    <div id="modalMensaje" class="modal-mensaje">
+    <div class="modal-contenido">
+        <p id="textoModal"></p>
+        <button onclick="cerrarModal()">Aceptar</button>
+    </div>
+    </div>
+
+    <!-- PIE DE PAGINA -->
+    <footer class="footer">
+        <div class="footer-contenido">
+
+            <div class="footer-seccion">
+            <h3>Librería Online</h3>
+            <p>Tu tienda de libros favorita. Encuentra clásicos, novelas, ciencia ficción y más.</p>
+            </div>
+
+            <div class="footer-seccion">
+            <h3>Atención al Cliente</h3>
+            <p>📧 soporte@libreria.com</p>
+            <p>📞 +52 55 1234 5678</p>
+            <p>Lun - Vie / 9:00 - 18:00</p>
+            </div>
+
+            <div class="footer-seccion">
+            <h3>Síguenos</h3>
+            <p>Facebook</p>
+            <p>Instagram</p>
+            <p>Twitter</p>
+            </div>
+
+        </div>
+
+        <div class="footer-copy">
+            © 2026 Librería Online — Todos los derechos reservados
+        </div>
+    </footer>
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/altaProducto.js"></script>
+</body>
+</html>
