@@ -6,6 +6,13 @@ function obtenerUsuario() {
   return JSON.parse(localStorage.getItem("usuario"));
 }
 
+const adminBtn = document.getElementById("adminBtn");
+
+const usuario = obtenerUsuario();
+if (usuario.rol === "admin") {
+  adminBtn.innerHTML = `<li class="nav-item"><a class="nav-link" href="altaLibro.html">Alta Libro</a></li>`;
+}
+
 // Consulta los libros desde el backend y los renderiza en el dom
 async function cargarLibros() {
   try {
@@ -29,7 +36,6 @@ async function cargarLibros() {
 
           <div class="card-body">
             <h6>${libro.Titulo}</h6>
-            <div class="rating">⭐⭐⭐⭐⭐</div>
             <div class="precio">$${libro.Precio}</div>
 
             <p class="${libro.Stock > 0 ? 'text-success' : 'text-danger'}">

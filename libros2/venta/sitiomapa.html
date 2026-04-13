@@ -24,7 +24,13 @@
         <a class="nav-link" href="catalogo.html">Libros</a>
         <a class="nav-link" href="buscar.html">Buscar</a>
         <a class="nav-link" href="carrito.html">Carrito</a>
+        <span id="adminBtn"></span>
         <a class="nav-link active" href="sitiomapa.html">Mapa del sitio</a>
+        <li class="nav-item">
+          <a class="nav-link" href="login.html">
+            <img src="imagenes/logout1.png" height="20">
+          </a>
+        </li>
       </div>
     </div>
   </div>
@@ -111,5 +117,17 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function obtenerUsuario() {
+    return JSON.parse(localStorage.getItem("usuario"));
+  }
+
+  const adminBtn = document.getElementById("adminBtn");
+
+  const usuario = obtenerUsuario();
+  if (usuario.rol === "admin") {
+    adminBtn.innerHTML = `<li class="nav-item"><a class="nav-link" href="altaLibro.html">Alta Libro</a></li>`;
+  }
+</script>
 </body>
 </html>

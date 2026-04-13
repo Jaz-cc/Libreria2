@@ -1,5 +1,12 @@
 const APILiB = "https://localhost:44367/api/libro";
 
+const adminBtn = document.getElementById("adminBtn");
+
+const usuario = obtenerUsuario();
+if (usuario.rol === "admin") {
+  adminBtn.innerHTML = `<li class="nav-item"><a class="nav-link" href="altaLibro.html">Alta Libro</a></li>`;
+}
+
 async function buscarLibro() {
   const texto = document.getElementById("busqueda").value.toLowerCase();
 

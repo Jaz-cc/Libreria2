@@ -7,6 +7,13 @@ function obtenerUsuario() {
   return JSON.parse(localStorage.getItem("usuario"));
 }
 
+const adminBtn = document.getElementById("adminBtn");
+
+const usuario = obtenerUsuario();
+if (usuario.rol === "admin") {
+  adminBtn.innerHTML = `<li class="nav-item"><a class="nav-link" href="altaLibro.html">Alta Libro</a></li>`;
+}
+
 // proteger acceso, verifica si hay una seccion activa
 // si no hay usuario, redirige al login
 function verificarSesion() {

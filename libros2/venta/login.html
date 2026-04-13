@@ -9,18 +9,6 @@
 </head>
 
 <body class="bg-light">
-
-    <!-- <h2>Iniciar Sesión</h2>
-
-    <form action="login.php" method="post">
-        <label for="usuario">Usuario:</label><br>
-        <input type="text" id="usuario" name="usuario" required><br><br>
-
-        <label for="password">Contraseña:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-
-        <button type="submit">Ingresar</button>
-    </form> -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
   <div class="container">
     <a class="navbar-brand" href="index.html">Librería</a>
@@ -40,7 +28,7 @@
 
 <!-- Formulario Login -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 85vh;">
-  <div class="card shadow-sm border-0 p-4" style="max-width: 420px; width: 100%; border-radius: 12px;">
+  <div class="card shadow-sm border-0 p-4" style="max-width: 420px; width: 100%; border-radius: 12px; margin: 90px;">
       <!-- T´tulo -->
       <div class="text-center mb-3">
           <h3 class="fw-bold">Iniciar Sesión</h3>
@@ -56,7 +44,8 @@
             <input type="password" id="password" class="form-control" placeholder="Contraseña">
         </div>
         <!-- Boton login -->
-        <button class="btn btn-warning w-100" onclick="login()">Entrar</button>
+        <button class="btn btn-warning w-100" onclick="login()">Entrar</button><br>
+        <button class="btn btn-outline-primary w-100"><a class="nav-link" href="registro.html">Registrar ahora</a></button>
         <!-- Mensaje de error -->
         <p id="mensaje" class="text-center mt-3 text-danger small"></p>
     </div>
