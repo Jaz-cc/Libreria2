@@ -23,9 +23,20 @@ if (usuario.rol === "admin") {
 // Cargar historial
 async function cargarHistorial() {
   const usuario = obtenerUsuario();
+  const token = localStorage.getItem("token");
 
   try {
-    const res = await fetch(`${API}/usuario/${usuario.id}`);
+    const res = await fetch(`${API}/usuario/${usuario.id}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    if (!res.ok) {
+      alert("Sesión expirada, inicia sesión nuevamente");
+      window.location.href = "./login.html";
+      return;
+    }
     const data = await res.json();
 
     const lista = document.getElementById("listaHistorial");

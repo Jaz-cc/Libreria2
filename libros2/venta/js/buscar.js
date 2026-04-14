@@ -24,7 +24,19 @@ if (usuario.rol === "admin") {
 async function buscarLibro() {
   const texto = document.getElementById("busqueda").value.toLowerCase();
 
-  const res = await fetch(APILiB);
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(APILiB, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  });
+
+  if (!res.ok) {
+    alert("Sesión expirada, inicia sesión nuevamente");
+    window.location.href = "./login.html";
+    return;
+  }
   const data = await res.json();
 
   const resultado = document.getElementById("resultado");
@@ -54,7 +66,3 @@ async function buscarLibro() {
     resultado.appendChild(div);
   });
 }
-
-// document.addEventListener("DOMContentLoaded", () => {
-//   verificarSesion();
-// });

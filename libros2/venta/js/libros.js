@@ -3,7 +3,9 @@ const API = "https://localhost:44367/api/libro";
 
 // Obtener usuario logueado
 function obtenerUsuario() {
-  return JSON.parse(localStorage.getItem("usuario"));
+  // return JSON.parse(localStorage.getItem("usuario"));
+  const data = localStorage.getItem("usuario");
+  return data ? JSON.parse(data) : null;
 }
 
 function verificarSesion() {
@@ -11,22 +13,43 @@ function verificarSesion() {
 
   if (!token) {
     alert("Debes iniciar sesión");
-    window.location.href = "/login.html";
+    window.location.href = "./login.html";
   }
 }
 
 const adminBtn = document.getElementById("adminBtn");
-
 const usuario = obtenerUsuario();
-if (usuario.rol === "admin") {
+if (usuario?.rol === "admin") {
   adminBtn.innerHTML = `<li class="nav-item"><a class="nav-link" href="altaLibro.html">Alta Libro</a></li>`;
 }
 
 // Consulta los libros desde el backend y los renderiza en el dom
 async function cargarLibros() {
   try {
-    const res = await fetch(API);
+    const token = localStorage.getItem("token");
+    console.log("TOKEN EN LIBROS:", token);
+
+    const res = await fetch(API, {
+      headers: {
+        "Authorization": `Bearer ${token}` //token
+      }
+    });
+
+    // 🔐 Manejo de sesión
+    if (res.status === 401) {
+      alert("Sesión expirada o no válida");
+      localStorage.removeItem("token");
+      window.location.href = "./login.html";
+      return;
+    }
+
     const data = await res.json();
+
+    // 🛑 Validación importante
+    if (!Array.isArray(data)) {
+      console.error("Respuesta inválida:", data);
+      return;
+    }
 
     const contenedor = document.getElementById("contenedor-libros");
     contenedor.innerHTML = "";
@@ -90,19 +113,25 @@ function generarIdCompra() {
 }
 // Agregar al carrito (backend)
 async function agregarAlCarrito(id, precio) {
+  const token = localStorage.getItem("token");
+  console.log(token)
+
   const usuario = obtenerUsuario();
   const idCompra = generarIdCompra();
 
   const cantidadInput = document.getElementById(`cantidad-${id}`);
   const cantidad = Number(cantidadInput.value);
 
-  
+  console.log("Usuario:", usuario);
+  console.log("ID Usuario:", usuario?.id);
+  console.log("IdCompra generado:", idCompra);
 
   try {
     await fetch(`https://localhost:44367/api/carrito`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({
         UserId: usuario.id,
@@ -133,7 +162,11 @@ async function eliminarLibro(id) {
 
   try {
     await fetch(`${API}/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token")
+      },
     });
 
     cargarLibros();

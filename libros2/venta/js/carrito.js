@@ -28,9 +28,22 @@ async function cargarCarrito() {
 
   const usuario = obtenerUsuario();
 
+  const token = localStorage.getItem("token");
+
   try {
-    const res = await fetch(`${API}/usuario/${usuario.id}`);
-    const data = await res.json();
+    const response = await fetch(`${API}/usuario/${usuario.id}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      alert("Sesión expirada, inicia sesión nuevamente");
+      window.location.href = "./login.html";
+      return;
+    }
+
+    const data = await response.json();
 
     const lista = document.getElementById("listaCarrito");
     const totalDiv = document.getElementById("totalCarrito");
@@ -88,6 +101,8 @@ async function cargarCarrito() {
 // ACTUALIZAR CANTIDAD DE PRODUCTO
 async function actualizarCantidad(id) {
   const usuario = obtenerUsuario();
+  const token = localStorage.getItem("token");
+  
   const input = document.getElementById(`cantidad-${id}`);
   const cantidad = Number(input.value);
 
@@ -101,7 +116,8 @@ async function actualizarCantidad(id) {
     await fetch(`${API}/${id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({
         UserId: usuario.id,
@@ -120,9 +136,15 @@ async function actualizarCantidad(id) {
 
 // ELIMINAR PRODUCTO
 async function eliminarItem(id) {
+  const token = localStorage.getItem("token");
+
   try {
     await fetch(`${API}/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
     });
 
     cargarCarrito();
@@ -133,12 +155,66 @@ async function eliminarItem(id) {
 }
 
 // CARGAR RESUMEN (para pago.html)
-async function cargarResumen() {
-   try {
-    const usuario = obtenerUsuario();
-
+// async function cargarResumen() {
+//    try {
+//     const usuario = obtenerUsuario();
+//     const token = localStorage.getItem("token");
  
-    const res = await fetch(`${API}/usuario/${usuario.id}`);
+//     const res = await fetch(`${API}/usuario/${usuario.id}`, {
+//       headers: {
+//         "Authorization": `Bearer ${token}` //token
+//       }
+//     });
+
+//     const data = await res.json();
+
+//     const contenedor = document.getElementById("resumenPedido");
+//     const totalDiv = document.getElementById("totalPedido");
+
+//     if (!contenedor || !totalDiv) return;
+
+//     contenedor.innerHTML = "";
+//     let total = 0;
+
+//     data.forEach(item => {
+//       total += item.Precio * item.Cantidad;
+//       let id = [];
+//       let cantidad = [];
+
+//       contenedor.innerHTML += `
+//         <p>${item.Titulo} x${item.Cantidad} - $${item.Precio}</p>
+//       `;
+//       id.push(item.LibroId);
+//       cantidad.push(item.Cantidad);
+//     });
+
+//     totalDiv.innerHTML = `<strong>Total: $${total}</strong>`;
+
+//     for (let item of data) {
+//       await actualizarStock(item.LibroId, item.Cantidad);
+//     }
+
+//     return {
+//       total: total,
+//       cantidad: cantidad
+//     };
+    
+//   } catch (error) {
+//     console.error("Error al cargar resumen:", error);
+//   }
+
+// }
+async function cargarResumen() {
+  try {
+    const usuario = obtenerUsuario();
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`${API}/usuario/${usuario.id}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
     const data = await res.json();
 
     const contenedor = document.getElementById("resumenPedido");
@@ -149,10 +225,9 @@ async function cargarResumen() {
     contenedor.innerHTML = "";
     let total = 0;
 
+    // solo UI
     data.forEach(item => {
       total += item.Precio * item.Cantidad;
-      id = item.Id;
-      cantidad = item.Cantidad
 
       contenedor.innerHTML += `
         <p>${item.Titulo} x${item.Cantidad} - $${item.Precio}</p>
@@ -161,16 +236,15 @@ async function cargarResumen() {
 
     totalDiv.innerHTML = `<strong>Total: $${total}</strong>`;
 
-    actualizarStock(id);
+    // solo retorno de datos
     return {
-      total: total,
-      cantidad: cantidad
+      total,
+      items: data
     };
-    
+
   } catch (error) {
     console.error("Error al cargar resumen:", error);
   }
-
 }
 
 //ID PARA COMPRA
@@ -181,12 +255,13 @@ function generarIdCompra() {
   const mm = (hoy.getMonth() + 1).toString().padStart(2, "0");
   const dd = hoy.getDate().toString().padStart(2, "0");
 
-  return parseInt(yyyy + mm + dd + usuario.id); // ejemplo: 20260408
+  return parseInt(yyyy + mm + dd + usuario.id); 
 }
 
 // REALIZAR COMPRA (BACKEND)
 async function procesarCompra() {
   const usuario = obtenerUsuario();
+  const token = localStorage.getItem("token");
   const compraId = generarIdCompra();
 
   try {  
@@ -206,7 +281,8 @@ async function procesarCompra() {
     const res = await fetch(`${APIV}`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({
         CompraId: compraId,
@@ -235,6 +311,8 @@ async function procesarCompra() {
 // VACIAR CARRITO COMPRA (BACKEND)
 async function vaciarCarrito() {
   const usuario = obtenerUsuario();
+  const token = localStorage.getItem("token");
+
   if (!usuario || !usuario.id) {
     alert("Usuario no válido");
     return;
@@ -243,7 +321,11 @@ async function vaciarCarrito() {
   try {
     // Llamamos a la API que elimina todos los items del carrito de este usuario
     const res = await fetch(`${API}/usuario/${usuario.id}`, {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
     });
       
     if (!res.ok) throw new Error("No se pudo vaciar el carrito");
@@ -257,77 +339,142 @@ async function vaciarCarrito() {
 }
 
 //OBTENER DATOS DE API LIBRO
-async function ObtenDatosL() {
-  const resulta = await cargarCarrito();
-  const id = resulta.Id;
+async function ObtenDatosL(id) {
+  try {
+    const token = localStorage.getItem("token");
 
-  fetch(`${APILI}/${id}`)
-    .then(res => res.json())
-    .then(data => {
-        data.Stock
-    })
-    .catch(err => console.error(err));
+    const response = await fetch(`https://localhost:44367/api/libro/${id}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
 
-    return Stock
+    // VALIDACIÓN CLAVE
+    if (!response.ok) {
+      console.error("Error HTTP:", response.status);
+      return null;
+    }
 
+    const data = await response.json();
 
+    if (!data) {
+      console.error("Respuesta vacía");
+      return null;
+    }
+
+    return data;
+
+  } catch (error) {
+    console.error("Error en ObtenDatosL:", error);
+    return null;
+  }
 }
 
 // ACTUALIZAR STOCK (BACKEND)
-async function actualizarStock(id) {
-  const resul = await ObtenDatosL();
-  const stock = resul.Stock;
+// async function actualizarStock(id) {
+//   const token = localStorage.getItem("token");
+//   const libro = await ObtenDatosL(id);
+//   const resul = await ObtenDatosL();
+//   const stock = resul.Stock;
+
+//   // VALIDACIÓN 
+//   if (!libro) {
+//     console.error("Libro no válido");
+//     return;
+//   }
+
+//   console.log("Libro:", libro);
+
+//   // ya es seguro
+//   const libroId = libro.Id;
 
 
-  const resultado = await cargarResumen();
-  const cantidad = resultado.cantidad;
+//   const resultado = await cargarResumen();
+//   const cantidad = resultado.cantidad;
 
 
-  console.log(stock, cantidad)
+//   console.log(stock, cantidad)
 
-  if (!cantidad || cantidad <= 0 || cantidad > 5) {
-    alert("Cantidad inválida");
-    return;
-  }
+//   if (!cantidad || cantidad <= 0 || cantidad > 5) {
+//     alert("Cantidad inválida");
+//     return;
+//   }
 
-  Nstock= stock - cantidad;
-  console.log(Nstock)
+//   Nstock= stock - cantidad;
+//   console.log(Nstock)
 
-  if (id == 0) {
-    alert("No hay id");
-    return;
-  }
-  try {
-    await fetch(`${APILI}/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        Titulo: null,
-        Autor: null,
-        Precio: null,
-        Stock: Nstock,
-        Imagen: null,
-      })
-    });
+//   if (id == 0) {
+//     alert("No hay id");
+//     return;
+//   }
+//   try {
+//     await fetch(`${APILI}/${id}`, {
+//       method: "PUT",
+//       headers: {
+//         "Content-Type": "application/json",
+//         "Authorization": `Bearer ${token}`
+//       },
+//       body: JSON.stringify({
+//         Titulo: null,
+//         Autor: null,
+//         Precio: null,
+//         Stock: Nstock,
+//         Imagen: null,
+//       })
+//     });
 
-    alert("Cantidad actualizada");
+//     alert("Cantidad actualizada");
 
-  } catch (error) {
-    console.error("Error:", error);
+//   } catch (error) {
+//     console.error("Error:", error);
+//   }
+// }
+async function actualizarStock(libroId, cantidad) {
+  const token = localStorage.getItem("token");
+
+  const libro = await ObtenDatosL(libroId);
+
+  if (!libro) return;
+
+  const nuevoStock = libro.Stock - cantidad;
+
+  await fetch(`${APILI}/${libroId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      Titulo: libro.Titulo,
+      Autor: libro.Autor,
+      Precio: libro.Precio,
+      Stock: nuevoStock,
+      Imagen: libro.Imagen
+    })
+  });
+}
+
+async function procesarStock(items) {
+  for (let item of items) {
+    await actualizarStock(item.LibroId, item.Cantidad);
   }
 }
 
 // CERRAR ÉXITO
 async function cerrarExito() {
-  await actualizarStock(id);
   window.location.href = "catalogo.html";
 }
 
 async function realizarCompra() {
-  await procesarCompra();
-  await vaciarCarrito();
+  const resultado = await cargarResumen();
+
+  if (!resultado || !resultado.items) return;
+
+  await procesarCompra(resultado.total);   // 1. registrar venta
+  await procesarStock(resultado.items);    // 2. descontar stock
+  await vaciarCarrito();                   // 3. limpiar carrito
+
+  alert("Compra realizada correctamente");
 }
 
 // AUTO INICIO SEGÚN PÁGINA

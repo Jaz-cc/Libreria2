@@ -93,7 +93,8 @@ async function agregarAlCarrito(id, precio) {
     await fetch(API_CARRITO, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token")
       },
       body: JSON.stringify({
         UserId: usuario.id,
@@ -123,7 +124,11 @@ async function eliminarLibro(id) {
 
   try {
     await fetch(`${API_LIBROS}/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token")
+      },
     });
     //recargar lista de libros
     cargarLibros();

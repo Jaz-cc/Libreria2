@@ -27,9 +27,7 @@
         <span id="adminBtn"></span>
         <a class="nav-link active" href="sitiomapa.html">Mapa del sitio</a>
         <li class="nav-item">
-          <a class="nav-link" href="login.html">
-            <img src="imagenes/logout1.png" height="20">
-          </a>
+          <button type="text" class="btn btn-dark nav-link" onclick="cerrarSesion()">➜]</button>
         </li>
       </div>
     </div>
@@ -117,6 +115,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/login.js"></script>
 <script>
   function obtenerUsuario() {
     return JSON.parse(localStorage.getItem("usuario"));
